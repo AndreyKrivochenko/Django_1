@@ -1,0 +1,12 @@
+<div class="header clearfix">
+    <a href="{% url 'index' %}" class="logo"></a>
+    <ul class="menu">
+        {% for link in main_menu%}
+            <li><a href="{% url link.href %}" class="{% if request.resolver_match.url_name == link.href %}
+                        active
+                      {% endif %}">{{ link.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="#" class="search"></a>
+    <a href="#" class="basket"></a>
+</div>

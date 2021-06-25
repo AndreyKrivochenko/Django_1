@@ -1,19 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}контакты{% endblock %}
+{% block title %}{{ title|title }}{% endblock %}
 {% block menu %}
 		<div class="hero">
-			<div class="header clearfix">
-				<a href="{% url 'index' %}" class="logo"></a>
-				<ul class="menu">
-					<li><a href="{% url 'index' %}">домой</a></li>
-					<li><a href="{% url 'products:index' %}">продукты</a></li>
-					<li><a href="{% url 'contacts' %}" class="active">контакты</a></li>
-				</ul>
-				<a href="#" class="search"></a>
-                <a href="#" class="basket"></a>
-			</div>
+			{% include 'includes/inc_main_menu.html' %}
 			<h1>наши контакты</h1>
 		</div>
 {% endblock %}
