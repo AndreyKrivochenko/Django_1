@@ -1,7 +1,7 @@
 from random import sample
 
 from django.shortcuts import render
-from  mainapp.models import Product
+from mainapp.models import Product
 
 
 links_menu = [
