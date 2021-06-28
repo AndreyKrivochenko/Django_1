@@ -1,13 +1,18 @@
+from random import sample
+
 from django.shortcuts import render
 
+from .models import ProductCategory, Product
+
 title = 'каталог'
+
 links_menu = [
-        {'name': 'все'},
-        {'name': 'дом'},
-        {'name': 'офис'},
-        {'name': 'модерн'},
-        {'name': 'классика'},
+    {'name': 'все'}
 ]
+
+links_menu += ProductCategory.objects.all()
+
+products = sample(list(Product.objects.all()), 3)
 
 main_menu = [
     {'href': 'index', 'name': 'домой'},
@@ -19,6 +24,7 @@ content = {
     'title': title,
     'links_menu': links_menu,
     'main_menu': main_menu,
+    'products': products,
 }
 
 
