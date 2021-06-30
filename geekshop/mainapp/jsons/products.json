@@ -1,0 +1,74 @@
+[
+  {
+      "category": "дом",
+      "name": "Лампа сфера",
+      "image": "product_images/product-1.jpg",
+      "short_desc": "Нежный ламповый свет",
+      "description": "",
+      "price": "2300.00",
+      "quantity": 12
+  },
+  {
+      "category": "классика",
+      "name": "Синие кресла",
+      "image": "product_images/product-2.jpg",
+      "short_desc": "Пара синих кресел",
+      "description": "",
+      "price": "5800.00",
+      "quantity": 32
+  },
+  {
+      "category": "модерн",
+      "name": "Настольная лампа",
+      "image": "product_images/product-31.jpg",
+      "short_desc": "Оригинальная настольная лампа",
+      "description": "",
+      "price": "3200.00",
+      "quantity": 15
+  },
+  {
+      "category": "модерн",
+      "name": "Красный стул",
+      "image": "product_images/product-4.jpg",
+      "short_desc": "Красивый красный стул",
+      "description": "",
+      "price": "1950.00",
+      "quantity": 17
+  },
+  {
+      "category": "офис",
+      "name": "Настенные часы",
+      "image": "product_images/product-4-sm.jpg",
+      "short_desc": "Модные часы без циферблата",
+      "description": "",
+      "price": "980.00",
+      "quantity": 35
+  },
+  {
+      "category": "офис",
+      "name": "Белое кресло",
+      "image": "product_images/product-21.jpg",
+      "short_desc": "Белое офисное кресло",
+      "description": "",
+      "price": "1780.00",
+      "quantity": 28
+  },
+  {
+      "category": "классика",
+      "name": "Настенная лампа",
+      "image": "product_images/product-41.jpg",
+      "short_desc": "Классическая настенная лампа",
+      "description": "",
+      "price": "1980.00",
+      "quantity": 65
+  },
+  {
+      "category": "дом",
+      "name": "Диван",
+      "image": "product_images/product-3-sm.jpg",
+      "short_desc": "Уютный диван",
+      "description": "",
+      "price": "14500.00",
+      "quantity": 8
+  }
+]
