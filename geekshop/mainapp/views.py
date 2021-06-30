@@ -12,8 +12,6 @@ links_menu = [
 
 links_menu += ProductCategory.objects.all()
 
-products = sample(list(Product.objects.all()), 3)
-
 main_menu = [
     {'href': 'index', 'name': 'домой'},
     {'href': 'products:index', 'name': 'продукты'},
@@ -24,7 +22,7 @@ content = {
     'title': title,
     'links_menu': links_menu,
     'main_menu': main_menu,
-    'products': products,
+    'products': sample(list(Product.objects.all()), 3),
 }
 
 

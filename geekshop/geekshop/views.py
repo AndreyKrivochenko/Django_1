@@ -12,13 +12,11 @@ links_menu = [
 
 title_index = 'магазин'
 title_contacts = 'контакты'
-products = Product.objects.all()
-products = sample(list(products), 4)
 
 content_index = {
     'main_menu': links_menu,
     'title': title_index,
-    'products': products,
+    'products': sample(list(Product.objects.all()), 4),
 }
 
 content_contacts = {
