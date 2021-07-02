@@ -1,0 +1,10 @@
+<div class="links clearfix">
+	<ul class="links-menu">
+		{% for link in links_menu %}
+			<li>
+				<a href="#" class="
+				{% if link.name == 'дом' %}active{% endif %}">{{ link.name }}</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>
