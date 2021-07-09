@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title|title }}{% endblock %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/style.css' %}">
+{% endblock %}
+
+{% block menu %}
+		<div class="hero-white">
+			{% include 'includes/inc_main_menu.html' %}
+		</div>
+{% endblock %}
+{% block content %}
+		<div class="details">
+
+			{% include 'includes/inc_products_menu.html' %}
+
+			<div class="products">
+                <div class="title clearfix">
+                    <h2>
+                      Категория: "{{ category.name|title }}"
+                    </h2>
+                </div>
+            </div>
+
+            <div class="related-products clearfix">
+
+                {% for product in products %}
+                  <div class="block">
+                    <a href="{% url 'basket:add' product.pk %}">
+                      <img src="/media/{{ product.image }}" alt="product">
+                      <div class="text">
+                          <img src="{% static 'geekshop/img/icon-hover.png' %}" alt="hover">
+                          <h4>{{ product.name }}</h4>
+                          <p>{{ product.description }}</p>
+                      </div>
+                    </a>
+                  </div>
+                {% endfor %}
+
+            </div>
+        </div>
+  </div>
+
+{% endblock %}

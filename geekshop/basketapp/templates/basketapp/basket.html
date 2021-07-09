@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/style.css' %}">
+{% endblock %}
+
+{% block menu %}
+		<div class="hero-white">
+			{% include 'includes/inc_main_menu.html' %}
+		</div>
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="container">
+            <div class="row">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Продукт</th>
+                  <th scope="col">Количестов</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for item in basket %}
+                  <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>{{ item.product }}</td>
+                      <td>{{ item.quantity }}</td>
+                  </tr>
+              {% endfor %}
+
+
+              </tbody>
+            </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
