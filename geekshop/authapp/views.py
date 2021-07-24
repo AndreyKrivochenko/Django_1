@@ -1,7 +1,10 @@
+from django.contrib.auth.views import LogoutView
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import auth
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.conf import settings
 
 from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm
 
@@ -28,9 +31,8 @@ def login(request):
     return render(request, 'authapp/login.html', context)
 
 
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('index'))
+class UserLogoutView(LogoutView):
+    next_page = settings.LOGOUT_REDIRECT_URL
 
 
 def register(request):
