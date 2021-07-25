@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 
 from basketapp.models import Basket
 from .models import ProductCategory, Product
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def get_basket(user):
@@ -23,7 +24,7 @@ def get_same_product(hot_product):
     return same_products
 
 
-def products(request, pk=None):
+def products(request, pk=None, page=1):
 
     title = 'каталог'
 
@@ -39,18 +40,27 @@ def products(request, pk=None):
 
     if pk is not None:
         if pk == 0:
-            products = Product.objects.all().order_by('price')
-            category = {'name': 'все'}
+            products = Product.objects.filter(is_deleted=False).order_by('price')
+            category = {'pk': 0, 'name': 'все'}
         else:
             category = get_object_or_404(ProductCategory, pk=pk)
-            products = Product.objects.filter(category__pk=pk).order_by('price')
+            products = Product.objects.filter(is_deleted=False, category__pk=pk).order_by('price')
+
+        paginator = Paginator(products, 2)
+
+        try:
+            products_paginator = paginator.page(page)
+        except PageNotAnInteger:
+            products_paginator = paginator.page(1)
+        except EmptyPage:
+            products_paginator = paginator.page(paginator.num_pages)
 
         content = {
             'title': title,
             'links_menu': links_menu,
             'main_menu': main_menu,
             'category': category,
-            'products': products,
+            'products': products_paginator,
             'basket': basket,
         }
         return render(request, 'products_list.html', context=content)

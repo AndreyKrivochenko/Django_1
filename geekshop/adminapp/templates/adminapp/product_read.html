@@ -1,0 +1,21 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+{% load my_tags %}
+
+{% block content %}
+<div class="card" style="width: 18rem;">
+    <img src="{{ product.image|media_folder_products }}" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <p class="card-text">{{ product.description }}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Стоимость: {{ product.price }} руб.</li>
+        <li class="list-group-item">На складе: {{ product.quantity }} шт.</li>
+    </ul>
+    <div class="card-body">
+        <a href="{% url 'admin_staff:product_update' pk=product.id %}" class="card-link">Редактировать</a>
+        <a href="{% url 'admin_staff:product_delete' pk=product.id %}" class="card-link">Удалить</a>
+    </div>
+</div>
+{% endblock %}

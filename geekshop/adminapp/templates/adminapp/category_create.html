@@ -1,0 +1,12 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <form class="form-horizontal" action="{% url 'admin_staff:category_create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <input class="form-control" type="submit" value="сохранить">
+    </form>
+
+{% endblock %}

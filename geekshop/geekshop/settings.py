@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'mainapp',
     'authapp',
     'basketapp',
+    'adminapp',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/auth/login/'
+LOGOUT_REDIRECT_URL = '/'
