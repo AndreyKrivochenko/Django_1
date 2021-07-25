@@ -36,8 +36,6 @@ def products(request, pk=None, page=1):
         {'href': 'contacts', 'name': 'контакты'},
     ]
 
-    basket = get_basket(user=request.user)
-
     if pk is not None:
         if pk == 0:
             products = Product.objects.filter(is_deleted=False).order_by('price')
@@ -74,7 +72,6 @@ def products(request, pk=None, page=1):
         'main_menu': main_menu,
         'hot_product': hot_product,
         'same_products': same_products,
-        'basket': basket,
     }
 
     return render(request, 'products.html', context=content)
