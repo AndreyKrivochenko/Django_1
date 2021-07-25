@@ -2,9 +2,11 @@
     <a href="{% url 'index' %}" class="logo"></a>
     <ul class="menu">
         {% for link in main_menu%}
-            <li><a href="{% url link.href %}" class="{% if request.resolver_match.url_name == link.href %}
+            <li>
+                <a href="{% url link.href %}" class="{% if request.resolver_match.url_name == link.href %}
                         active
-                      {% endif %}">{{ link.name }}</a></li>
+                      {% endif %}">{{ link.name }}</a>
+            </li>
         {% endfor %}
         {% if user.is_authenticated %}
             <li>
@@ -22,5 +24,9 @@
             </li>
     </ul>
     <a href="#" class="search"></a>
-    <a href="#" class="basket"></a>
+    <a href="{% url 'basket:view' %}" class="basket">
+        <span>
+            {% if basket %} {{ basket|length }} {% endif %}
+        </span>
+    </a>
 </div>
