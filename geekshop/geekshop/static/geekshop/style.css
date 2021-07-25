@@ -90,6 +90,12 @@ html, body {
 	left: 1210px;
 }
 
+.basket span {
+	position: absolute;
+	top: -20px;
+	left: -115px;
+}
+
 .clearfix:after {
 	content: "";
 	display: block;
@@ -901,7 +907,7 @@ td:first-child {
 	float: left;
 	margin-right: 30px;
 }
-.slider-product {
+.slider-product, .slider-product img {
 	width: 570px;
 	height: 570px;
 }
@@ -918,6 +924,12 @@ td:first-child {
 	float: left;
 	margin-right: 10px;
 }
+
+.slider-control .block img {
+	height: 70px;
+	width: 70px;
+}
+
 .slider-control a .text {
 	display: none;
 	height: 70px;
