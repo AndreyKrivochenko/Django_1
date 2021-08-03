@@ -53,6 +53,8 @@ def products(request, pk=None, page=1):
         except EmptyPage:
             products_paginator = paginator.page(paginator.num_pages)
 
+        basket = Basket.objects.all()
+
         content = {
             'title': title,
             'links_menu': links_menu,
