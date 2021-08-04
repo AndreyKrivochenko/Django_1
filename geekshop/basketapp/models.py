@@ -34,6 +34,10 @@ class Basket(models.Model):
 
     is_deleted = models.BooleanField(default=False)
 
+    @staticmethod
+    def get_item(pk):
+        return Basket.objects.filter(pk=pk).first()
+
     @property
     def product_cost(self):
         return self.product.price * self.quantity
