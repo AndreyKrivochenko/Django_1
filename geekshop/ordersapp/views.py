@@ -2,12 +2,13 @@ from django.db import transaction
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.forms import inlineformset_factory
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 
+from mainapp.models import Product
 from .models import Order, OrderItem
 from basketapp.models import Basket
 from .forms import OrderForm, OrderItemForm
@@ -110,26 +111,26 @@ class OrderUpdate(LoginRequiredMixin, UpdateView):
 
 
 class OrderDelete(DeleteView):
-   model = Order
-   success_url = reverse_lazy('ordersapp:orders_list')
+    model = Order
+    success_url = reverse_lazy('ordersapp:orders_list')
 
 
 class OrderRead(DetailView):
-   model = Order
-   template_name = 'ordersapp/order_detail.html'
+    model = Order
+    template_name = 'ordersapp/order_detail.html'
 
-   def get_context_data(self, **kwargs):
-       context = super(OrderRead, self).get_context_data(**kwargs)
-       context['title'] = 'заказ/просмотр'
-       return context
+    def get_context_data(self, **kwargs):
+        context = super(OrderRead, self).get_context_data(**kwargs)
+        context['title'] = 'заказ/просмотр'
+        return context
 
 
 def order_forming_complete(request, pk):
-   order = get_object_or_404(Order, pk=pk)
-   order.status = Order.SENT_TO_PROCEED
-   order.save()
+    order = get_object_or_404(Order, pk=pk)
+    order.status = Order.SENT_TO_PROCEED
+    order.save()
 
-   return HttpResponseRedirect(reverse('ordersapp:orders_list'))
+    return HttpResponseRedirect(reverse('ordersapp:orders_list'))
 
 
 @receiver(pre_save, sender=OrderItem)
@@ -148,3 +149,12 @@ def product_quantity_update_save(sender, update_fields, instance, **kwargs):
 def product_quantity_update_delete(sender, instance, **kwargs):
     instance.product.quantity += instance.quantity
     instance.product.save()
+
+
+def get_product_price(request, pk):
+    if request.is_ajax():
+        product = Product.objects.filter(pk=int(pk)).first()
+        if product:
+            return JsonResponse({'price': product.price})
+        else:
+            return JsonResponse({'price': 0})
