@@ -63,5 +63,14 @@ class Product(models.Model):
     )
 
     is_deleted = models.BooleanField(default=False)
+
     def __str__(self):
         return f'{self.name} ({self.category.name})'
+
+    @staticmethod
+    def get_items():
+        return Product.objects.filter(is_deleted=False).order_by('category', 'name')
+
+    class Meta:
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'

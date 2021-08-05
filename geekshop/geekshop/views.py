@@ -17,15 +17,11 @@ title_contacts = 'контакты'
 
 
 def index(request):
-    basket = []
-    if request.user.is_authenticated:
-        basket = Basket.objects.filter(user=request.user)
 
     content_index = {
         'main_menu': links_menu,
         'title': title_index,
         'products': sample(list(Product.objects.all()), 4),
-        'basket': basket,
     }
     return render(request, 'index.html', context=content_index)
 
