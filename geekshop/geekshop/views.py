@@ -21,7 +21,7 @@ def index(request):
     content_index = {
         'main_menu': links_menu,
         'title': title_index,
-        'products': sample(list(Product.objects.all()), 4),
+        'products': sample(list(Product.objects.filter(is_deleted=False, category__is_deleted=False)), 4),
     }
     return render(request, 'index.html', context=content_index)
 
