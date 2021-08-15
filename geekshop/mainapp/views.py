@@ -1,6 +1,8 @@
 from random import sample
 
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 
 from basketapp.models import Basket
 from .models import ProductCategory, Product
@@ -147,6 +149,49 @@ def products(request, pk=None, page=1):
     }
 
     return render(request, 'products.html', context=content)
+
+
+def products_ajax(request, pk=None, page=1):
+    if request.is_ajax():
+        title = 'каталог'
+
+        links_menu = get_links_menu()
+
+        main_menu = [
+            {'href': 'index', 'name': 'домой'},
+            {'href': 'products:index', 'name': 'продукты'},
+            {'href': 'contacts', 'name': 'контакты'},
+        ]
+
+        if pk is not None:
+            if pk == 0:
+                products = get_products_oreded_by_price()
+                category = {'pk': 0, 'name': 'все'}
+            else:
+                category = get_category(pk=pk)
+                products = get_products_in_category_oreded_by_price(pk=pk)
+
+            paginator = Paginator(products, 2)
+
+            try:
+                products_paginator = paginator.page(page)
+            except PageNotAnInteger:
+                products_paginator = paginator.page(1)
+            except EmptyPage:
+                products_paginator = paginator.page(paginator.num_pages)
+
+            basket = Basket.objects.all()
+
+            content = {
+                'title': title,
+                'links_menu': links_menu,
+                'main_menu': main_menu,
+                'category': category,
+                'products': products_paginator,
+                'basket': basket,
+            }
+            result = render_to_string('includes/inc_products_list_content.html', context=content, request=request)
+            return JsonResponse({'result': result})
 
 
 def product(request, pk):
