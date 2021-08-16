@@ -1,3 +1,6 @@
+from django.db import connection
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 
@@ -26,19 +29,6 @@ class UsersListView(ListView):
     def get_queryset(self):
         return ShopUser.objects.all().order_by('-is_active', '-is_superuser', '-is_staff', 'username')
 
-# @user_passes_test(lambda u: u.is_superuser)
-# def users(request):
-#     title = 'админка/пользователи'
-#
-#     users_list = ShopUser.objects.all().order_by('-is_active', '-is_superuser', '-is_staff', 'username')
-#
-#     context = {
-#         'title': title,
-#         'objects': users_list
-#     }
-#
-#     return render(request, 'adminapp/users.html', context)
-
 
 class UserCreateView(CreateView):
     model = ShopUser
@@ -51,25 +41,6 @@ class UserCreateView(CreateView):
         context['title'] = 'пользователь/создать'
         return context
 
-# def user_create(request):
-#     title = 'пользователь/создать'
-#
-#     if request.method == 'POST':
-#         user_form = ShopUserRegisterForm(request.POST, request.FILES)
-#
-#         if user_form.is_valid():
-#             user_form.save()
-#             return HttpResponseRedirect(reverse('admin_staff:users'))
-#     else:
-#         user_form = ShopUserRegisterForm()
-#
-#     context = {
-#         'title': title,
-#         'user_form': user_form
-#     }
-#
-#     return render(request, 'adminapp/user_create.html', context)
-
 
 class UserUpdateView(UpdateView):
     model = ShopUser
@@ -81,27 +52,6 @@ class UserUpdateView(UpdateView):
         context = super(UserUpdateView, self).get_context_data()
         context['title'] = 'пользователи/редактирование'
         return context
-
-# def user_update(request, pk):
-#     title = 'пользователи/рудактирование'
-#
-#     edit_user = get_object_or_404(ShopUser, pk=pk)
-#
-#     if request.method == 'POST':
-#         edit_form = ShopUserAdminEditForm(request.POST, request.FILES, instance=edit_user)
-#         if edit_form.is_valid():
-#             edit_form.save()
-#
-#             return HttpResponseRedirect(reverse('admin_staff:users'))
-#     else:
-#         edit_form = ShopUserAdminEditForm(instance=edit_user)
-#
-#     context = {
-#         'title': title,
-#         'user_form': edit_form,
-#     }
-#
-#     return render(request, 'adminapp/user_update.html', context)
 
 
 class UserDeleteView(DeleteView):
@@ -117,23 +67,6 @@ class UserDeleteView(DeleteView):
 
         return HttpResponseRedirect(self.get_success_url())
 
-# def user_delete(request, pk):
-#     title = 'пользователи/удаление'
-#
-#     user = get_object_or_404(ShopUser, pk=pk)
-#
-#     if request.method == 'POST':
-#         # user.delete()
-#         # вместо удаления лучше сделаем неактивным
-#         user.is_deleted = True
-#         user.is_active = False
-#         user.save()
-#         return HttpResponseRedirect(reverse('admin_staff:users'))
-#
-#     context = {'title': title, 'user_to_delete': user}
-#
-#     return render(request, 'adminapp/user_delete.html', context)
-
 
 class CategoriesListView(ListView):
     model = ProductCategory
@@ -145,19 +78,6 @@ class CategoriesListView(ListView):
         context['title'] = 'админка/категории'
 
         return context
-
-# @user_passes_test(lambda u: u.is_superuser)
-# def categories(request):
-#     title = 'админка/категории'
-#
-#     categories_list = ProductCategory.objects.all()
-#
-#     context = {
-#         'title': title,
-#         'objects': categories_list
-#     }
-#
-#     return render(request, 'adminapp/categories.html', context)
 
 
 class CategoryCreateView(CreateView):
@@ -172,23 +92,6 @@ class CategoryCreateView(CreateView):
 
         return context
 
-# def category_create(request):
-#     title = 'категория/создать'
-#
-#     if request.method == 'POST':
-#         category_form = CategoryAdminCreateForm(request.POST)
-#         category_form.save()
-#         return HttpResponseRedirect(reverse('admin_staff:categories'))
-#     else:
-#         category_form = CategoryAdminCreateForm()
-#
-#     context = {
-#         'title': title,
-#         'category_form': category_form,
-#     }
-#
-#     return render(request, 'adminapp/category_create.html', context)
-
 
 class CategoryUpdateView(UpdateView):
     model = ProductCategory
@@ -201,27 +104,6 @@ class CategoryUpdateView(UpdateView):
         context['title'] = 'категории/редактирование'
 
         return context
-
-# def category_update(request, pk):
-#     title = 'категории/редактирование'
-#
-#     edit_category = get_object_or_404(ProductCategory, pk=pk)
-#
-#     if request.method == 'POST':
-#         edit_form = CategoryAdminCreateForm(request.POST, instance=edit_category)
-#         if edit_form.is_valid():
-#             edit_form.save()
-#
-#             return HttpResponseRedirect(reverse('admin_staff:categories'))
-#     else:
-#         edit_form = CategoryAdminCreateForm(instance=edit_category)
-#
-#     context = {
-#         'title': title,
-#         'category_form': edit_form,
-#     }
-#
-#     return render(request, 'adminapp/category_update.html', context)
 
 
 class CategoryDeleteView(DeleteView):
@@ -242,24 +124,6 @@ class CategoryDeleteView(DeleteView):
         self.object.save()
 
         return HttpResponseRedirect(self.get_success_url())
-
-# def category_delete(request, pk):
-#     title = 'категории/удаление'
-#
-#     category = get_object_or_404(ProductCategory, pk=pk)
-#
-#     if request.method == 'POST':
-#         category.is_deleted = True
-#         category.is_active = False
-#         category.save()
-#         return HttpResponseRedirect(reverse('admin_staff:categories'))
-#
-#     context = {
-#         'title': title,
-#         'category_to_delete': category,
-#     }
-#
-#     return render(request, 'adminapp/category_delete.html', context)
 
 
 class ProductsListView(ListView):
@@ -283,21 +147,6 @@ class ProductsListView(ListView):
         return Product.objects.filter(category__pk=self.kwargs['pk']).order_by('name')
 
 
-# def products(request, pk):
-#     title = 'админка/продукт'
-#
-#     category = get_object_or_404(ProductCategory, pk=pk)
-#     products_list = Product.objects.filter(category__pk=pk).order_by('name')
-#
-#     content = {
-#         'title': title,
-#         'category': category,
-#         'objects': products_list,
-#     }
-#
-#     return render(request, 'adminapp/products.html', content)
-
-
 class ProductCreateView(CreateView):
     model = Product
     template_name = 'adminapp/product_create.html'
@@ -312,30 +161,7 @@ class ProductCreateView(CreateView):
         return context
 
     def get_success_url(self):
-
         return reverse_lazy('admin_staff:products', args=[self.kwargs['pk']])
-
-# def product_create(request, pk):
-#     title = 'продукты/создание'
-#
-#     category = get_object_or_404(ProductCategory, pk=pk)
-#
-#     if request.method == 'POST':
-#         product_form = ProductEditForm(request.POST, request.FILES)
-#         if product_form.is_valid():
-#             product_form.save()
-#
-#             return HttpResponseRedirect(reverse('admin_staff:products', args=[pk]))
-#     else:
-#         product_form = ProductEditForm(initial={'category': category})
-#
-#     context = {
-#         'title': title,
-#         'update_form': product_form,
-#         'category': category,
-#     }
-#
-#     return render(request, 'adminapp/product_create.html', context)
 
 
 class ProductDetailView(DetailView):
@@ -347,18 +173,6 @@ class ProductDetailView(DetailView):
         context['title'] = 'продукты/подробнее'
 
         return context
-
-# def product_read(request, pk):
-#     title = 'продукты/подробнее'
-#
-#     product = get_object_or_404(Product, pk=pk)
-#
-#     context = {
-#         'title': title,
-#         'product': product,
-#     }
-#
-#     return render(request, 'adminapp/product_read.html', context)
 
 
 class ProductUpdateView(UpdateView):
@@ -375,32 +189,7 @@ class ProductUpdateView(UpdateView):
         return context
 
     def get_success_url(self):
-
         return reverse_lazy('admin_staff:products', args=[self.object.category.pk])
-
-
-# def product_update(request, pk):
-#     title = 'продукты/редактирование'
-#
-#     edit_product = get_object_or_404(Product, pk=pk)
-#
-#     if request.method == 'POST':
-#         edit_form = ProductEditForm(request.POST, request.FILES, instance=edit_product)
-#         if edit_form.is_valid():
-#             edit_form.save()
-#
-#             return HttpResponseRedirect(reverse('admin_staff:products', args=[edit_product.category.pk]))
-#     else:
-#         edit_form = ProductEditForm(instance=edit_product)
-#
-#     context = {
-#         'title': title,
-#         'update_form': edit_form,
-#         'category': edit_product.category,
-#         'product': edit_product,
-#     }
-#
-#     return render(request, 'adminapp/product_update.html', context)
 
 
 class ProductDeleteView(DeleteView):
@@ -409,7 +198,6 @@ class ProductDeleteView(DeleteView):
     context_object_name = 'product_to_delete'
 
     def get_success_url(self):
-
         return reverse_lazy('admin_staff:products', args=[self.object.category.pk])
 
     def delete(self, request, *args, **kwargs):
@@ -426,19 +214,19 @@ class ProductDeleteView(DeleteView):
 
         return context
 
-# def product_delete(request, pk):
-#     title = 'продукт/удаление'
-#
-#     product = get_object_or_404(Product, pk=pk)
-#
-#     if request.method == 'POST':
-#         product.is_deleted = True
-#         product.save()
-#         return HttpResponseRedirect(reverse('admin_staff:products', args=[product.category.pk]))
-#
-#     context = {
-#         'title': title,
-#         'product_to_delete': product,
-#     }
-#
-#     return render(request, 'adminapp/product_delete.html', context)
+
+def db_profile_by_type(prefix, type, queries):
+    update_queries = list(filter(lambda x: type in x['sql'], queries))
+    print(f'db_profile {type} for {prefix}:')
+    [print(query['sql']) for query in update_queries]
+
+
+@receiver(pre_save, sender=ProductCategory)
+def product_is_active_update_productcategory_save(sender, instance, **kwargs):
+    if instance.pk:
+        if not instance.is_deleted:
+            instance.product_set.update(is_deleted=False)
+        else:
+            instance.product_set.update(is_deleted=True)
+
+        db_profile_by_type(sender, 'UPDATE', connection.queries)
