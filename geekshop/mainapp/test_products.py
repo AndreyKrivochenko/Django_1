@@ -10,10 +10,7 @@ class ProductsTestCase(TestCase):
         self.product_2 = Product.objects.create(name="стул 2", category=category, price=2998.1, quantity=125,
                                                 is_deleted=False)
 
-        self.product_3 = Product.objects.create(name="стул 3",
-                                                category=category,
-                                                price=998.1,
-                                                quantity=115)
+        self.product_3 = Product.objects.create(name="стул 3", category=category, price=998.1, quantity=115)
 
     def test_product_get(self):
         product_1 = Product.objects.get(name="стул 1")
