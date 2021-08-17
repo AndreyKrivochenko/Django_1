@@ -55,7 +55,6 @@ class TestUserManagement(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.context['basket']), [])
         self.assertEqual(response.request['PATH_INFO'], '/basket/')
-        self.assertIn('Ваша корзина, Пользователь', response.content.decode())
 
     def test_user_logout(self):
         # данные пользователя

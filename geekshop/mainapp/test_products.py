@@ -5,16 +5,10 @@ from mainapp.models import Product, ProductCategory
 class ProductsTestCase(TestCase):
     def setUp(self):
         category = ProductCategory.objects.create(name="стулья")
-        self.product_1 = Product.objects.create(name="стул 1",
-                                                category=category,
-                                                price=1999.5,
-                                                quantity=150)
+        self.product_1 = Product.objects.create(name="стул 1", category=category, price=1999.5, quantity=150)
 
-        self.product_2 = Product.objects.create(name="стул 2",
-                                                category=category,
-                                                price=2998.1,
-                                                quantity=125,
-                                                is_active=False)
+        self.product_2 = Product.objects.create(name="стул 2", category=category, price=2998.1, quantity=125,
+                                                is_deleted=False)
 
         self.product_3 = Product.objects.create(name="стул 3",
                                                 category=category,
