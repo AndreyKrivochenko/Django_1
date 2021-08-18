@@ -8,7 +8,7 @@ class ProductsTestCase(TestCase):
         self.product_1 = Product.objects.create(name="стул 1", category=category, price=1999.5, quantity=150)
 
         self.product_2 = Product.objects.create(name="стул 2", category=category, price=2998.1, quantity=125,
-                                                is_deleted=False)
+                                                is_deleted=True)
 
         self.product_3 = Product.objects.create(name="стул 3", category=category, price=998.1, quantity=115)
 
